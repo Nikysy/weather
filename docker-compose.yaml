@@ -9,6 +9,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Debug login
+        run: echo "username=${{ secrets.DOCKER_USERNAME }}"
       - name: Checkout
         uses: actions/checkout@v5
 
@@ -17,10 +19,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-      - name: Check secrets
-        run: |
-          if [ -z "${{ secrets.DOCKER_USERNAME }}" ]; then echo "USERNAME EMPTY"; fi
-          if [ -z "${{ secrets.DOCKER_PASSWORD }}" ]; then echo "PASSWORD EMPTY"; fi    
 
       - name: Build and Push
         uses: docker/build-push-action@v6
@@ -28,5 +26,5 @@ jobs:
           context: .
           push: true
           tags: |
-            D/weather-api:latest
+            yourname/weather-api:latest
             yourname/weather-api:${{ github.event.release.tag_name }}
