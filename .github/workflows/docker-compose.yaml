@@ -18,14 +18,11 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Set image name
-        run: echo "IMAGE=${{ secrets.DOCKER_USERNAME }}/weather" >> $GITHUB_ENV
-
       - name: Build and Push
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
           tags: |
-            ${{ env.IMAGE }}:latest
-            ${{ env.IMAGE }}:${{ github.event.release.tag_name }}
+            ${{ secrets.DOCKER_USERNAME }}/weather:latest
+            ${{ secrets.DOCKER_USERNAME }}/weather:${{ github.event.release.tag_name }}
